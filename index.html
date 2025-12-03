@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Recipe Blog (No JavaScript)</title>
+    <style>
+        body{font-family: Arial, sans-serif; margin:0; background:#f9f9f9; color:#222}
+        header{background:#ff7043; color:white; padding:1rem 0; text-align:center}
+        main{max-width:900px; margin:1.5rem auto; padding:0 1rem}
+        .note{background:#fff3e0;border-left:4px solid #ffb74d;padding:1rem;border-radius:6px;margin:1rem 0}
+        .filters{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;margin:1rem 0}
+        .filters input{display:none}
+        .filters label{background:#fff;padding:0.5rem 0.8rem;border-radius:4px;border:1px solid #eee;cursor:pointer}
+        .filters input:checked + label{background:#ff7043;color:#fff;border-color:#ff7043}
+        .recipes{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem}
+        .card{background:#fff;padding:1rem;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+        .card h3{margin:0 0 .5rem 0}
+        .meta{font-size:0.9rem;color:#666;margin-bottom:.6rem}
+        .ingredients{font-size:0.95rem;margin-bottom:.6rem}
+        details{margin-top:.5rem}
+        footer{max-width:900px;margin:2rem auto;text-align:center;color:#666}
+        @media (max-width:420px){.filters{flex-direction:column} }
+
+        /* CSS-only category filter logic */
+        /* Default: show all cards */
+        .recipes .card { display: block; }
+        /* When a specific category radio is checked: hide all, then show only cards with that category */
+        #all:checked ~ .recipes .card { display: block; }
+
+        #breakfast:checked ~ .recipes .card { display: none; }
+        #breakfast:checked ~ .recipes .card.breakfast { display: block; }
+
+        #dinner:checked ~ .recipes .card { display: none; }
+        #dinner:checked ~ .recipes .card.dinner { display: block; }
+
+        #salad:checked ~ .recipes .card { display: none; }
+        #salad:checked ~ .recipes .card.salad { display: block; }
+
+        #dessert:checked ~ .recipes .card { display: none; }
+        #dessert:checked ~ .recipes .card.dessert { display: block; }
+
+        #sides:checked ~ .recipes .card { display: none; }
+        #sides:checked ~ .recipes .card.sides { display: block; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Simple Recipe Blog</h1>
+        <p>Browse recipes and filter by category — no JavaScript used</p>
+    </header>
+
+    <main>
+        <div class="note">
+            <strong>Note:</strong> This page intentionally does not use JavaScript. Use the category buttons below to filter recipes.
+            For text search across the page, use your browser's Find feature (Ctrl/Cmd+F).
+        </div>
+
+        <!-- Radio buttons for CSS-only filtering (must come before .recipes) -->
+        <div class="filters">
+            <input type="radio" id="all" name="cat" checked>
+            <label for="all">All</label>
+
+            <input type="radio" id="breakfast" name="cat">
+            <label for="breakfast">Breakfast</label>
+
+            <input type="radio" id="dinner" name="cat">
+            <label for="dinner">Dinner</label>
+
+            <input type="radio" id="salad" name="cat">
+            <label for="salad">Salads</label>
+
+            <input type="radio" id="dessert" name="cat">
+            <label for="dessert">Desserts</label>
+
+            <input type="radio" id="sides" name="cat">
+            <label for="sides">Sides</label>
+        </div>
+
+        <section class="recipes">
+            <article class="card breakfast" data-ingredients="eggs flour milk sugar butter">
+                <h3>Classic Pancakes</h3>
+                <div class="meta">Prep: 10m • Cook: 15m • Serves: 4</div>
+                <div class="ingredients"><strong>Ingredients:</strong> eggs, flour, milk, sugar, butter</div>
+                <details>
+                    <summary>Steps</summary>
+                    <ol>
+                        <li>Mix dry ingredients, then add milk and eggs. Stir until smooth.</li>
+                        <li>Heat a pan, add butter, pour batter and cook until bubbles form. Flip and cook other side.</li>
+                        <li>Serve warm with syrup or fruit.</li>
+                    </ol>
+                </details>
+            </article>
+
+            <article class="card dinner" data-ingredients="rice chicken soy sauce ginger garlic">
+                <h3>Simple Chicken Fried Rice</h3>
+                <div class="meta">Prep: 10m • Cook: 15m • Serves: 2-3</div>
+                <div class="ingredients"><strong>Ingredients:</strong> cooked rice, chicken, soy sauce, ginger, garlic, vegetables</div>
+                <details>
+                    <summary>Steps</summary>
+                    <ol>
+                        <li>Stir-fry diced chicken until cooked. Remove and set aside.</li>
+                        <li>Sauté garlic, ginger and vegetables. Add rice and chicken back.</li>
+                        <li>Season with soy sauce, stir well and serve.</li>
+                    </ol>
+                </details>
+            </article>
+
+            <article class="card dinner" data-ingredients="pasta tomato basil olive oil cheese">
+                <h3>Quick Tomato Basil Pasta</h3>
+                <div class="meta">Prep: 5m • Cook: 15m • Serves: 2</div>
+                <div class="ingredients"><strong>Ingredients:</strong> pasta, canned tomatoes, garlic, basil, olive oil, cheese</div>
+                <details>
+                    <summary>Steps</summary>
+                    <ol>
+                        <li>Cook pasta according to package instructions.</li>
+                        <li>Sauté garlic, add tomatoes and simmer. Stir in basil and olive oil.</li>
+                        <li>Toss pasta with sauce, top with cheese and serve.</li>
+                    </ol>
+                </details>
+            </article>
+
+            <article class="card breakfast" data-ingredients="oats banana honey milk cinnamon">
+                <h3>Banana Oatmeal</h3>
+                <div class="meta">Prep: 2m • Cook: 5m • Serves: 1</div>
+                <div class="ingredients"><strong>Ingredients:</strong> oats, banana, milk (or water), honey, cinnamon</div>
+                <details>
+                    <summary>Steps</summary>
+                    <ol>
+                        <li>Combine oats and milk in a pot. Cook until thick.</li>
+                        <li>Stir in sliced banana, honey and a pinch of cinnamon.</li>
+                    </ol>
+                </details>
+            </article>
+
+            <article class="card sides" data-ingredients="potato salt pepper oil">
+                <h3>Roasted Potatoes</h3>
+                <div class="meta">Prep: 10m • Cook: 30m • Serves: 4</div>
+                <div class="ingredients"><strong>Ingredients:</strong> potatoes, olive oil, salt, pepper, herbs</div>
+                <details>
+                    <summary>Steps</summary>
+                    <ol>
+                        <li>Cut potatoes into cubes, toss with oil, salt, pepper and herbs.</li>
+                        <li>Roast in oven at 200°C (400°F) for ~30 minutes until golden.</li>
+                    </ol>
+                </details>
+            </article>
+
+            <article class="card salad" data-ingredients="tomato cucumber feta olive oil lemon">
+                <h3>Simple Greek Salad</h3>
+                <div class="meta">Prep: 10m • Cook: 0m • Serves: 2-3</div>
+                <div class="ingredients"><strong>Ingredients:</strong> tomato, cucumber, feta, olives, olive oil, lemon</div>
+                <details>
+                    <summary>Steps</summary>
+                    <ol>
+                        <li>Chop vegetables, crumble feta, add olives.</li>
+                        <li>Dress with olive oil, lemon juice, salt and pepper. Toss and serve.</li>
+                    </ol>
+                </details>
+            </article>
+
+            <article class="card dessert" data-ingredients="chocolate sugar butter flour eggs">
+                <h3>Easy Chocolate Mug Cake</h3>
+                <div class="meta">Prep: 2m • Cook: 1-2m • Serves: 1</div>
+                <div class="ingredients"><strong>Ingredients:</strong> flour, cocoa powder, sugar, milk, egg, butter</div>
+                <details>
+                    <summary>Steps</summary>
+                    <ol>
+                        <li>Mix ingredients in a mug and microwave for 1–2 minutes until cooked through.</li>
+                        <li>Let cool slightly and enjoy.</li>
+                    </ol>
+                </details>
+            </article>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>Made with ❤️ — Simple Recipe Blog. Tip: use your browser's Find (Ctrl/Cmd+F) to search text on this page.</p>
+    </footer>
+</body>
+</html>
